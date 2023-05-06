@@ -33,3 +33,8 @@ const createGallery = () => {
       );
     });
 };
+
+searchButtonEl.addEventListener('click', event => {
+  event.preventDefault();
+  createGallery();
+});
