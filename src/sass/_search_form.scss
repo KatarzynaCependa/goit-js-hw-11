@@ -1,0 +1,16 @@
+.search-form {
+  display: flex;
+  justify-content: center;
+  background-color: #6b63af;
+  padding: 5px 0;
+}
+
+input {
+  padding: 6px;
+  width: 500px;
+  margin-right: 5px;
+}
+
+button:hover {
+  cursor: pointer;
+}
