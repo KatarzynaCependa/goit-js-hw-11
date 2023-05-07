@@ -1,7 +1,8 @@
 import axios from 'axios';
 import Notiflix from 'notiflix';
 import SimpleLightbox from 'simplelightbox';
-// import { createGallery } from './createGallery';
+import 'simplelightbox/dist/simple-lightbox.min.css';
+import { createGallery } from './createGallery';
 
 const API_key = '36085372-0e054a65c2dad8200a3139bdc';
 const API_URL = 'https://pixabay.com/api/';
@@ -24,13 +25,15 @@ const searchApi = async () => {
   return response;
 };
 
-const createGallery = () => {
+const getPhotos = () => {
   searchApi()
-    .then(response => {
-      const totalHits = response.data.total;
+    .then(pictures => {
+      const totalHits = pictures.data.total;
       Notiflix.Notify.info(`Hooray! We found ${totalHits} images.`);
 
-      if (response.data.hits.length === 0) throw new Error();
+      if (pictures.data.hits.length === 0) throw new Error();
+
+      galleryEl.innerHTML = createGallery(pictures);
     })
     .catch(error => {
       Notiflix.Notify.failure(
@@ -41,5 +44,5 @@ const createGallery = () => {
 
 searchButtonEl.addEventListener('click', event => {
   event.preventDefault();
-  createGallery();
+  getPhotos();
 });
