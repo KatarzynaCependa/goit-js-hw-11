@@ -2,7 +2,7 @@ export const createGallery = pictures => {
   return pictures.data.hits
     .map(picture => {
       return `<div class="photo-card">
-  <img src="${picture.webformatURL}" alt="${picture.tags}" loading="lazy" />
+  <a href="${picture.largeImageURL}"><img src="${picture.webformatURL}" alt="${picture.tags}" loading="lazy" /></a>
   <div class="info">
     <p class="info-item">
       <b>Likes</b>${picture.likes}

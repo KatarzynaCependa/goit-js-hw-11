@@ -20,6 +20,7 @@ const searchApi = async () => {
       image_type: 'photo',
       orientation: 'horizontal',
       safesearch: true,
+      per_page: '40',
     },
   });
   return response;
@@ -29,11 +30,13 @@ const getPhotos = () => {
   searchApi()
     .then(pictures => {
       const totalHits = pictures.data.total;
-      Notiflix.Notify.info(`Hooray! We found ${totalHits} images.`);
+      if (totalHits > 0)
+        Notiflix.Notify.info(`Hooray! We found ${totalHits} images.`);
 
       if (pictures.data.hits.length === 0) throw new Error();
 
       galleryEl.innerHTML = createGallery(pictures);
+      let lightbox = new SimpleLightbox('.gallery a');
     })
     .catch(error => {
       Notiflix.Notify.failure(
@@ -42,7 +45,22 @@ const getPhotos = () => {
     });
 };
 
+const loadMorePhotos = () => {
+  searchApi().then(pictures => {
+    const totalHits = pictures.data.total;
+
+    galleryEl.insertAdjacentHTML('beforeend', createGallery(pictures));
+    let lightbox = new SimpleLightbox('.gallery a');
+  });
+};
+
 searchButtonEl.addEventListener('click', event => {
   event.preventDefault();
   getPhotos();
+  loadMoreButtonEl.style.visibility = 'visible';
+});
+
+loadMoreButtonEl.addEventListener('click', event => {
+  event.preventDefault();
+  loadMorePhotos();
 });
